@@ -315,9 +315,6 @@ def run_quantum_confluence(price, delta):
 
 
 # Action Button for Signal Generation
-if st.button("⚡ EXECUTE 5,000+ LIGHTNING CONFLUENCE SCAN", use_command=True):
-  pass
-
 if st.button(
     "⚡ EXECUTE 5,000+ LIGHTNING CONFLUENCE SCAN", use_container_width=True
 ):
@@ -335,7 +332,7 @@ if st.button(
       rsi,
       fib,
       state,
-  ) = run_quantum_confluence(current_tick_price, tick_delta)
+  ) = run_quantum_confluence(current_tick_price, tick_tick_delta if 'tick_tick_delta' in locals() else tick_delta)
 
   res1, res2 = st.columns([2, 1])
   with res1:
@@ -397,7 +394,7 @@ if st.button(
 else:
   st.info(
       "👆 Sidebar mein **Enable Real-Time Continuous Ticker** on rakhein. Speed"
-      " ab slider se 0.1 seconds tak set ki ja sakti hai."
+      " ab slider से 0.1 seconds तक set ki ja sakti hai."
   )
 
 # Lightning-Fast Continuous Auto-Refresh Loop
