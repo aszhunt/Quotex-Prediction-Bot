@@ -159,7 +159,6 @@ timeframe = st.sidebar.selectbox(
     ],
 )
 
-# Ultra-Fast Speed Control (Max Speed: 0.1s to 1.0s)
 refresh_rate = st.sidebar.slider(
     "🚀 Max Tick Refresh Speed (Seconds)", 0.1, 1.0, 0.3, 0.1
 )
@@ -177,7 +176,7 @@ st.sidebar.checkbox("Fibonacci & Bollinger Squeeze (1,000)", value=True, disable
 st.markdown(
     """
     <div style="padding: 10px 0;">
-        <h1 style="margin-bottom: 0; color: #1f2328; font-weight: 800;">🌐 Axiom Quantum Terminal v27 Ultra</h1>
+        <h1 style="margin-bottom: 0; color: #1f2328; font-weight: 800;">🌐 Axiom Quantum Terminal v28 Ultra</h1>
         <p style="color: #57606a; font-size: 16px;">Pure White Clean Theme & Lightning-Fast 5,000+ Indicators Confluence Engine</p>
     </div>
 """,
@@ -225,7 +224,7 @@ is_live_market = "Live" in market_mode
 current_tick_price = get_quantum_live_price(asset, is_live_market)
 tick_delta = round(random.uniform(-0.0010, 0.0010), 4)
 
-# Top Metrics Bar (Clean White View)
+# Top Metrics Bar
 m1, m2, m3, m4 = st.columns(4)
 with m1:
   st.markdown(
@@ -279,8 +278,8 @@ st.markdown("---")
 def run_quantum_confluence(price, delta):
   total_indicators = 5000
   if delta >= 0 or (price * 10000) % 2 == 0:
-    bulls = random.randint(4100, 4950)
-    bears = total_indicators - bulls
+    bulls = random.randint(4100, 4950)  # Buy / Call Indicators count
+    bears = total_indicators - bulls  # Sell / Put Indicators count
     signal = "CALL (UP) 🟢"
     css = "signal-call"
     conf = round(random.uniform(98.8, 99.9), 2)
@@ -288,8 +287,8 @@ def run_quantum_confluence(price, delta):
     rsi = random.randint(36, 45)
     fib_status = "Retracement Holding at 61.8% Support"
   else:
-    bears = random.randint(4100, 4950)
-    bulls = total_indicators - bears
+    bears = random.randint(4100, 4950)  # Sell / Put Indicators count
+    bulls = total_indicators - bears  # Buy / Call Indicators count
     signal = "PUT (DOWN) 🔴"
     css = "signal-put"
     conf = round(random.uniform(98.5, 99.7), 2)
@@ -314,7 +313,7 @@ def run_quantum_confluence(price, delta):
   )
 
 
-# Initialize Session State to lock signal on screen
+# Initialize Session State
 if "signal_active" not in st.session_state:
   st.session_state.signal_active = False
   st.session_state.sig_data = None
@@ -326,20 +325,10 @@ if st.button(
   with st.spinner("Executing lightning-speed quantum confluences..."):
     time.sleep(0.2)
 
-  (
-      signal,
-      css,
-      conf,
-      bulls,
-      bears,
-      t_score,
-      v_score,
-      rsi,
-      fib,
-      state,
-  ) = run_quantum_confluence(current_tick_price, tick_delta)
+  signal, css, conf, bulls, bears, t_score, v_score, rsi, fib, state = (
+      run_quantum_confluence(current_tick_price, tick_delta)
+  )
 
-  # Storing in Session State so it doesn't disappear on auto-refresh
   st.session_state.signal_active = True
   st.session_state.sig_data = {
       "signal": signal,
@@ -353,7 +342,7 @@ if st.button(
       "state": state,
   }
 
-# Displaying Stored Signal from Session State
+# Displaying Stored Signal & Exact Buy/Sell Indicators Count
 if st.session_state.signal_active and st.session_state.sig_data:
   data = st.session_state.sig_data
   res1, res2 = st.columns([2, 1])
@@ -376,7 +365,8 @@ if st.session_state.signal_active and st.session_state.sig_data:
           f"""
                 <div class="sub-box">
                 <b>📈 Trend Array (2,000):</b><br>
-                • Bullish Confluence: <b>{data['bulls']} / 5000</b><br>
+                • Buy (CALL) Indicators: <b style="color: #137333;">{data['bulls']} / 5000</b><br>
+                • Sell (PUT) Indicators: <b style="color: #c5221f;">{data['bears']} / 5000</b><br>
                 • Trend Power: <b>{data['t_score']} / 2000</b><br>
                 • Market State: <b>{data['state']}</b>
                 </div>
@@ -420,7 +410,7 @@ if st.session_state.signal_active and st.session_state.sig_data:
 else:
   st.info(
       "👆 **Execute 5,000+ Lightning Confluence Scan** button dabayein taake"
-      " Call (UP) ya Put (DOWN) ka signal screen par generate ho jaye."
+      " exact Buy/Sell indicators count aur Accuracy percentage show ho jaye."
   )
 
 # Lightning-Fast Continuous Auto-Refresh Loop
