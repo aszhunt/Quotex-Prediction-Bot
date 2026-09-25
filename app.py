@@ -7,7 +7,7 @@ import yfinance as yf
 
 # Page Configuration
 st.set_page_config(
-    page_title="Axiom Institutional Terminal | Quantum Suite v29 Pro",
+    page_title="Axiom Institutional Terminal | Ultra-Fast White Suite",
     page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -290,7 +290,6 @@ def run_quantum_confluence(price, delta):
     state = "Order Book Imbalance + VWAP Bullish Expansion"
     rsi = random.randint(36, 45)
     fib_status = "Retracement Holding at 61.8% Support"
-    # Single line reason for Buy/Call
     reason = (
         "💡 **Trade Reason:** Strong buyer volume surge and upward price"
         " rejection from key VWAP support level."
@@ -304,7 +303,6 @@ def run_quantum_confluence(price, delta):
     state = "Order Book Pressure + Bollinger Squeeze Rejection"
     rsi = random.randint(55, 67)
     fib_status = "Retracement Rejected at 38.2% Resistance"
-    # Single line reason for Sell/Put
     reason = (
         "💡 **Trade Reason:** Heavy seller pressure and immediate rejection at"
         " major upper Bollinger resistance."
@@ -369,13 +367,10 @@ if st.session_state.signal_active and st.session_state.sig_data:
         f'<div class="{data["css"]}">{data["signal"]}</div>',
         unsafe_allow_html=True,
     )
-
-    # Displaying the Single-Line Reason Box
     st.markdown(
         f'<div class="reason-box">{data["reason"]}</div>',
         unsafe_allow_html=True,
     )
-
     st.markdown(
         f"<br><h4 style='color: #24292f;'>Quantum Accuracy Score:"
         f" <span style='color: #137333;'>{data['conf']}%</span></h4>",
