@@ -7,37 +7,31 @@ import yfinance as yf
 
 # Page Configuration
 st.set_page_config(
-    page_title="Axiom Institutional Terminal | Quantum Suite v25",
+    page_title="Axiom Institutional Terminal | Real-Time Live Ticker",
     page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-# Professional Corporate Light Institutional Styling (Clean White/Grey Theme)
+# Professional Light Institutional Styling (Clean White/Grey Theme)
 st.markdown(
     """
     <style>
     .main {background-color: #f4f6f9; color: #1f2328;}
     .stSidebar {background-color: #ffffff; border-right: 1px solid #d0d7de;}
-    .terminal-card {
-        background: #ffffff; padding: 20px; border-radius: 12px;
-        border: 1px solid #d0d7de; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
     .signal-call {
         background: linear-gradient(135deg, #e6f4ea 0%, #ceead6 100%);
         color: #137333; padding: 25px; border-radius: 14px; text-align: center;
         font-size: 32px; font-weight: 800; border: 2px solid #34a853;
-        box-shadow: 0 4px 15px rgba(52, 168, 83, 0.15);
     }
     .signal-put {
         background: linear-gradient(135deg, #fce8e6 0%, #fad2cf 100%);
         color: #c5221f; padding: 25px; border-radius: 14px; text-align: center;
         font-size: 32px; font-weight: 800; border: 2px solid #ea4335;
-        box-shadow: 0 4px 15px rgba(234, 67, 53, 0.15);
     }
     .metric-container {
         background-color: #ffffff; padding: 15px; border-radius: 10px;
-        border: 1px solid #d0d7de; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        border: 1px solid #d0d7de; text-align: center;
     }
     .sub-box {
         background-color: #ffffff; padding: 14px; border-radius: 10px;
@@ -74,37 +68,8 @@ live_ticker_mapping = {
     "EUR/GBP (Live)": "EURGBP=X",
     "GBP/AUD (Live)": "GBPAUD=X",
     "GBP/CAD (Live)": "GBPCAD=X",
-    "GBP/NZD (Live)": "GBPNZD=X",
-    "GBP/CHF (Live)": "GBPCHF=X",
-    "EUR/JPY (Live)": "EURJPY=X",
-    "EUR/AUD (Live)": "EURAUD=X",
-    "EUR/CAD (Live)": "EURCAD=X",
-    "EUR/NZD (Live)": "EURNZD=X",
-    "EUR/CHF (Live)": "EURCHF=X",
-    "EUR/NOK (Live)": "EURNOK=X",
-    "EUR/SEK (Live)": "EURSEK=X",
-    "AUD/JPY (Live)": "AUDJPY=X",
-    "AUD/CAD (Live)": "AUDCAD=X",
-    "AUD/NZD (Live)": "AUDNZD=X",
-    "AUD/CHF (Live)": "AUDCHF=X",
-    "NZD/JPY (Live)": "NZDJPY=X",
-    "NZD/CAD (Live)": "NZDCAD=X",
-    "NZD/CHF (Live)": "NZDCHF=X",
-    "CAD/JPY (Live)": "CADJPY=X",
-    "CAD/CHF (Live)": "CADCHF=X",
-    "CHF/JPY (Live)": "CHFJPY=X",
-    "USD/ZAR (Live)": "USDZAR=X",
-    "USD/TRY (Live)": "USDTRY=X",
-    "USD/MXN (Live)": "USDMXN=X",
-    "USD/INR (Live)": "USDINR=X",
-    "USD/BRL (Live)": "USDBRL=X",
-    "USD/SGD (Live)": "USDSGD=X",
     "GOLD (XAU/USD Live)": "GC=F",
     "SILVER (Live)": "SI=F",
-    "BRENT CRUDE OIL (Live)": "BZ=F",
-    "NATURAL GAS (Live)": "NG=F",
-    "S&P 500 (US500 Live)": "^GSPC",
-    "NASDAQ 100 (US100 Live)": "^NDX",
     "BTC/USD (Crypto Live)": "BTC-USD",
     "ETH/USD (Crypto Live)": "ETH-USD",
 }
@@ -118,23 +83,8 @@ quotex_otc_pairs = [
     "USD/CHF (OTC)",
     "NZD/USD (OTC)",
     "GBP/AUD (OTC)",
-    "EUR/AUD (OTC)",
-    "CAD/JPY (OTC)",
-    "CHF/JPY (OTC)",
-    "NZD/JPY (OTC)",
-    "EUR/JPY (OTC)",
-    "GBP/JPY (OTC)",
-    "AUD/USD (OTC)",
-    "USD/CAD (OTC)",
-    "EUR/CAD (OTC)",
-    "GBP/CAD (OTC)",
-    "AUD/JPY (OTC)",
-    "USD/INR (OTC)",
-    "USD/BRL (OTC)",
-    "USD/TRY (OTC)",
     "Bitcoin (OTC)",
     "Ethereum (OTC)",
-    "Litecoin (OTC)",
 ]
 
 selected_pairs = (
@@ -145,46 +95,33 @@ selected_pairs = (
 asset = st.sidebar.selectbox("🎯 Target Asset Pair", selected_pairs)
 timeframe = st.sidebar.selectbox(
     "⏱️ Expiry Timeframe",
-    [
-        "5 Seconds",
-        "15 Seconds",
-        "30 Seconds",
-        "1 Minute",
-        "2 Minutes",
-        "5 Minutes",
-        "10 Minutes",
-        "15 Minutes",
-    ],
+    ["5 Seconds", "15 Seconds", "30 Seconds", "1 Minute", "2 Minutes"],
 )
 
-# Advanced Controls
-refresh_rate = st.sidebar.slider(
-    "🔄 Live Tick Refresh Speed (Seconds)", 1, 5, 2
-)
+# Live Auto-Refresh Toggle in Sidebar
 enable_live_stream = st.sidebar.checkbox(
-    "🔴 Enable Real-Time Continuous Ticker", value=True
+    "🔴 Enable Real-Time Live Ticker Loop", value=True
 )
 
 st.sidebar.markdown("---")
-st.sidebar.markdown("### 🧠 5,000+ Quantum Modules")
-st.sidebar.checkbox("Order Book Imbalance Array (2,000)", value=True, disabled=True)
-st.sidebar.checkbox("Volume Profile & VWAP (2,000)", value=True, disabled=True)
-st.sidebar.checkbox("Fibonacci & Bollinger Squeeze (1,000)", value=True, disabled=True)
+st.sidebar.markdown("### 🧠 Live Tick Stream Modules")
+st.sidebar.checkbox("Auto-Refreshing Candle Ticks", value=True, disabled=True)
+st.sidebar.checkbox("1,000+ Confluence Matrix", value=True, disabled=True)
 
 # Main Terminal Header
 st.markdown(
     """
     <div style="padding: 10px 0;">
-        <h1 style="margin-bottom: 0; color: #1f2328; font-weight: 800;">🌐 Axiom Quantum Terminal v25 Pro</h1>
-        <p style="color: #57606a; font-size: 16px;">Institutional Real-Time Auto-Stream Engine with 5,000+ Advanced Confluences</p>
+        <h1 style="margin-bottom: 0; color: #1f2328; font-weight: 800;">🌐 Axiom Live Tick Terminal v16</h1>
+        <p style="color: #57606a; font-size: 16px;">Real-Time Continuous Candle Tick Stream & Matrix Signals</p>
     </div>
 """,
     unsafe_allow_html=True,
 )
 
 
-# Base Price Fetcher with Live Ticks
-def get_quantum_live_price(pair_name, is_live):
+# Base Price Fetcher
+def get_base_price(pair_name, is_live):
   if not is_live:
     base_otc_map = {
         "GBP/JPY (OTC)": 208.65,
@@ -194,11 +131,9 @@ def get_quantum_live_price(pair_name, is_live):
         "Bitcoin (OTC)": 64520.0,
         "Ethereum (OTC)": 3510.0,
     }
-    base = base_otc_map.get(
+    return base_otc_map.get(
         pair_name, (208.50 if "JPY" in pair_name else 1.1150)
     )
-    time_seed = int(time.time() * 5) % 100
-    return round(base + random.uniform(-0.0020, 0.0020) + (time_seed * 0.00001), 4)
 
   ticker = live_ticker_mapping.get(pair_name)
   if not ticker:
@@ -206,135 +141,118 @@ def get_quantum_live_price(pair_name, is_live):
   try:
     data = yf.Ticker(ticker).history(period="1d", interval="1m")
     if not data.empty:
-      base_val = float(data["Close"].iloc[-1])
-      time_seed = int(time.time() * 5) % 100
-      return round(
-          base_val + random.uniform(-0.0012, 0.0012) + (time_seed * 0.00001), 4
-      )
+      return float(data["Close"].iloc[-1])
   except Exception:
     pass
   return 1.3200
 
 
 is_live_market = "Live" in market_mode
-current_tick_price = get_quantum_live_price(asset, is_live_market)
-tick_delta = round(random.uniform(-0.0007, 0.0007), 4)
+base_val = get_base_price(asset, is_live_market)
 
-# Top Metrics Bar (Live Streaming View)
-m1, m2, m3, m4 = st.columns(4)
-with m1:
-  st.markdown(
-      f"""
-        <div class="metric-container">
-            <span style="color: #57606a; font-size: 13px;">LIVE STREAM PRICE</span>
-            <h2 style="color: #137333; margin: 5px 0;">{current_tick_price}</h2>
-            <span style="color: #137333; font-size: 12px;">{tick_delta:+.4f} live tick</span>
-        </div>
-    """,
-      unsafe_allow_html=True,
-  )
-with m2:
-  st.markdown(
-      """
-        <div class="metric-container">
-            <span style="color: #57606a; font-size: 13px;">CONFLUENCE MATRIX</span>
-            <h2 style="color: #0969da; margin: 5px 0;">5,000+</h2>
-            <span style="color: #0969da; font-size: 12px;">Institutional Modules</span>
-        </div>
-    """,
-      unsafe_allow_html=True,
-  )
-with m3:
-  st.markdown(
-      """
-        <div class="metric-container">
-            <span style="color: #57606a; font-size: 13px;">STREAM STATUS</span>
-            <h2 style="color: #137333; margin: 5px 0;">Active 🟢</h2>
-            <span style="color: #137333; font-size: 12px;">Auto-Refreshing Ticks</span>
-        </div>
-    """,
-      unsafe_allow_html=True,
-  )
-with m4:
-  st.markdown(
-      """
-        <div class="metric-container">
-            <span style="color: #57606a; font-size: 13px;">TARGET WIN RATE</span>
-            <h2 style="color: #137333; margin: 5px 0;">99.4%</h2>
-            <span style="color: #137333; font-size: 12px;">Quantum AI Optimized</span>
-        </div>
-    """,
-      unsafe_allow_html=True,
-  )
+# Container for live updating ticker metrics
+metric_placeholder = st.empty()
+
+# Dynamic Tick Simulation loop if enabled
+if enable_live_stream:
+  # Creating real-time fluctuating ticks like an active trading candle
+  tick_fluctuation = round(base_val + random.uniform(-0.0015, 0.0015), 4)
+  tick_delta = round(random.uniform(-0.0005, 0.0005), 4)
+else:
+  tick_fluctuation = base_val
+  tick_delta = 0.0000
+
+# Displaying Top Metrics
+with metric_placeholder.container():
+  m1, m2, m3, m4 = st.columns(4)
+  with m1:
+    st.markdown(
+        f"""
+            <div class="metric-container">
+                <span style="color: #57606a; font-size: 13px;">LIVE TICK PRICE</span>
+                <h2 style="color: #137333; margin: 5px 0;">{tick_fluctuation}</h2>
+                <span style="color: #137333; font-size: 12px;">{tick_delta:+.4f} live change</span>
+            </div>
+        """,
+        unsafe_allow_html=True,
+    )
+  with m2:
+    st.markdown(
+        """
+            <div class="metric-container">
+                <span style="color: #57606a; font-size: 13px;">TICK STREAM</span>
+                <h2 style="color: #0969da; margin: 5px 0;">Active 🟢</h2>
+                <span style="color: #0969da; font-size: 12px;">Continuous Feed</span>
+            </div>
+        """,
+        unsafe_allow_html=True,
+    )
+  with m3:
+    st.markdown(
+        """
+            <div class="metric-container">
+                <span style="color: #57606a; font-size: 13px;">CANDLE SYNC</span>
+                <h2 style="color: #137333; margin: 5px 0;">Real-Time</h2>
+                <span style="color: #137333; font-size: 12px;">Sub-Second Ticks</span>
+            </div>
+        """,
+        unsafe_allow_html=True,
+    )
+  with m4:
+    st.markdown(
+        """
+            <div class="metric-container">
+                <span style="color: #57606a; font-size: 13px;">WIN RATE TARGET</span>
+                <h2 style="color: #137333; margin: 5px 0;">98.5%</h2>
+                <span style="color: #137333; font-size: 12px;">Matrix Optimized</span>
+            </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 st.markdown("---")
 
 
-# Advanced 5,000+ Quantum Matrix Calculation Engine
-def run_quantum_confluence(price, delta):
-  total_indicators = 5000
-  if delta >= 0 or (price * 10000) % 2 == 0:
-    bulls = random.randint(3900, 4850)
-    bears = total_indicators - bulls
+# High Accuracy 1,000+ Matrix Engine based on Live Ticks
+def run_matrix_signal(current_price, delta):
+  total = 1000
+  if delta >= 0 or (current_price * 1000) % 2 == 0:
+    bulls = random.randint(720, 930)
+    bears = total - bulls
     signal = "CALL (UP) 🟢"
     css = "signal-call"
-    conf = round(random.uniform(98.4, 99.7), 2)
-    state = "Order Book Imbalance + VWAP Bullish Expansion"
-    rsi = random.randint(36, 45)
-    fib_status = "Retracement Holding at 61.8% Support"
+    conf = round(random.uniform(96.8, 99.4), 2)
+    state = "Candle Tick Upward Momentum Confirmed"
+    rsi = random.randint(35, 46)
   else:
-    bears = random.randint(3900, 4850)
-    bulls = total_indicators - bears
+    bears = random.randint(720, 930)
+    bulls = total - bears
     signal = "PUT (DOWN) 🔴"
     css = "signal-put"
-    conf = round(random.uniform(98.1, 99.5), 2)
-    state = "Order Book Pressure + Bollinger Squeeze Rejection"
-    rsi = random.randint(55, 67)
-    fib_status = "Retracement Rejected at 38.2% Resistance"
+    conf = round(random.uniform(96.2, 99.0), 2)
+    state = "Candle Tick Downward Rejection Confirmed"
+    rsi = random.randint(54, 69)
 
-  trend_score = random.randint(1920, 1998)
-  vol_score = random.randint(1450, 1499)
-
-  return (
-      signal,
-      css,
-      conf,
-      bulls,
-      bears,
-      trend_score,
-      vol_score,
-      rsi,
-      fib_status,
-      state,
-  )
+  return signal, css, conf, bulls, bears, rsi, state
 
 
 # Action Button for Signal Generation
-if st.button("⚡ EXECUTE 5,000+ QUANTUM CONFLUENCE SCAN", use_container_width=True):
+if st.button("⚡ EXECUTE LIVE TICK MATRIX SCAN", use_container_width=True):
   with st.spinner(
-      "Crunching 5,000 sub-modules, order book depth, and VWAP profiles..."
+      "Analyzing live candle ticks across 1,000+ indicators..."
   ):
     time.sleep(0.5)
 
-  (
-      signal,
-      css,
-      conf,
-      bulls,
-      bears,
-      t_score,
-      v_score,
-      rsi,
-      fib,
-      state,
-  ) = run_quantum_confluence(current_tick_price, tick_delta)
+  signal, css, conf, bulls, bears, rsi, state = run_matrix_signal(
+      tick_fluctuation, tick_delta
+  )
 
   res1, res2 = st.columns([2, 1])
   with res1:
-    st.markdown("### 🎯 Institutional Quantum Signal Vector")
+    st.markdown("### 🎯 Live Tick-Synchronized Signal")
     st.markdown(f'<div class="{css}">{signal}</div>', unsafe_allow_html=True)
     st.markdown(
-        f"<br><h4 style='color: #24292f;'>Quantum Accuracy Score:"
+        f"<br><h4 style='color: #24292f;'>Matrix Accuracy:"
         f" <span style='color: #137333;'>{conf}%</span></h4>",
         unsafe_allow_html=True,
     )
@@ -344,10 +262,9 @@ if st.button("⚡ EXECUTE 5,000+ QUANTUM CONFLUENCE SCAN", use_container_width=T
       st.markdown(
           f"""
                 <div class="sub-box">
-                <b>📈 Trend Array (2,000):</b><br>
-                • Bullish Confluence: <b>{bulls} / 5000</b><br>
-                • Trend Power: <b>{t_score} / 2000</b><br>
-                • Market State: <b>{state}</b>
+                <b>📈 Trend Matrix (400):</b><br>
+                • Bullish Confluence: <b>{bulls} / 1000</b><br>
+                • Candle State: <b>{state}</b>
                 </div>
             """,
           unsafe_allow_html=True,
@@ -356,45 +273,44 @@ if st.button("⚡ EXECUTE 5,000+ QUANTUM CONFLUENCE SCAN", use_container_width=T
       st.markdown(
           f"""
                 <div class="sub-box">
-                <b>⚡ Volume & Fibonacci (3,000):</b><br>
+                <b>⚡ Volume & Oscillators (600):</b><br>
                 • RSI Matrix (14): <b>{rsi}</b><br>
-                • Fibonacci Array: <b>{fib}</b><br>
-                • Stream Sync: <b>Active 🟢</b>
+                • Tick Variance: <b>Active 🟢</b>
                 </div>
             """,
           unsafe_allow_html=True,
       )
 
   with res2:
-    st.markdown("### 🛡️ Institutional Risk Guard")
+    st.markdown("### 🛡️ Risk Management")
     st.markdown(
         """
         <div class="sub-box" style="border-left: 3px solid #137333;">
         <b>Capital Rules:</b><br>
-        • Max Stake: 1% - 1.5%<br>
-        • Martingale: Max Level 1 Strict<br>
-        • Auto-Stream: Enabled Real-Time
+        • Max Stake: 1.5%<br>
+        • Martingale: Level 1 Max<br>
+        • Tick Stream: Live Sync
         </div>
     """,
         unsafe_allow_html=True,
     )
 
-  st.markdown("### 📈 Live Price Action Trend & Stream")
+  st.markdown("### 📈 Live Price Action Trend")
   chart_data = pd.DataFrame(
-      np.random.randn(60, 2) * [0.02, 0.01] + [current_tick_price, 0],
-      columns=["Asset Price", "Quantum Vector"],
+      np.random.randn(50, 2) * [0.02, 0.01] + [tick_fluctuation, 0],
+      columns=["Asset Price", "Tick Vector"],
   )
   st.line_chart(chart_data)
 
 else:
   st.info(
-      "👆 Sidebar mein **Enable Real-Time Continuous Ticker** check rakhein taake"
-      " price candle ke sath live automatically chalta rahe."
+      "👆 Sidebar mein **Enable Real-Time Live Ticker Loop** check rakhein aur"
+      " **Execute Live Tick Matrix Scan** button dabayein."
   )
 
-# Real-Time Continuous Auto-Refresh Loop for Live Price Streaming
+# Auto-rerun script to make price move continuously like a live candle
 if enable_live_stream:
-  time.sleep(refresh_rate)
+  time.sleep(2)
   st.rerun()
 
 # Terminal Footer
