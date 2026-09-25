@@ -314,6 +314,11 @@ def run_quantum_confluence(price, delta):
   )
 
 
+# Initialize Session State to lock signal on screen
+if "signal_active" not in st.session_state:
+  st.session_state.signal_active = False
+  st.session_state.sig_data = None
+
 # Action Button for Signal Generation
 if st.button(
     "⚡ EXECUTE 5,000+ LIGHTNING CONFLUENCE SCAN", use_container_width=True
@@ -321,7 +326,6 @@ if st.button(
   with st.spinner("Executing lightning-speed quantum confluences..."):
     time.sleep(0.2)
 
-  # Fixed variable reference error here
   (
       signal,
       css,
@@ -335,13 +339,34 @@ if st.button(
       state,
   ) = run_quantum_confluence(current_tick_price, tick_delta)
 
+  # Storing in Session State so it doesn't disappear on auto-refresh
+  st.session_state.signal_active = True
+  st.session_state.sig_data = {
+      "signal": signal,
+      "css": css,
+      "conf": conf,
+      "bulls": bulls,
+      "bears": bears,
+      "t_score": t_score,
+      "rsi": rsi,
+      "fib": fib,
+      "state": state,
+  }
+
+# Displaying Stored Signal from Session State
+if st.session_state.signal_active and st.session_state.sig_data:
+  data = st.session_state.sig_data
   res1, res2 = st.columns([2, 1])
+
   with res1:
     st.markdown("### 🎯 Institutional Quantum Signal Vector")
-    st.markdown(f'<div class="{css}">{signal}</div>', unsafe_allow_html=True)
+    st.markdown(
+        f'<div class="{data["css"]}">{data["signal"]}</div>',
+        unsafe_allow_html=True,
+    )
     st.markdown(
         f"<br><h4 style='color: #24292f;'>Quantum Accuracy Score:"
-        f" <span style='color: #137333;'>{conf}%</span></h4>",
+        f" <span style='color: #137333;'>{data['conf']}%</span></h4>",
         unsafe_allow_html=True,
     )
 
@@ -351,9 +376,9 @@ if st.button(
           f"""
                 <div class="sub-box">
                 <b>📈 Trend Array (2,000):</b><br>
-                • Bullish Confluence: <b>{bulls} / 5000</b><br>
-                • Trend Power: <b>{t_score} / 2000</b><br>
-                • Market State: <b>{state}</b>
+                • Bullish Confluence: <b>{data['bulls']} / 5000</b><br>
+                • Trend Power: <b>{data['t_score']} / 2000</b><br>
+                • Market State: <b>{data['state']}</b>
                 </div>
             """,
           unsafe_allow_html=True,
@@ -363,8 +388,8 @@ if st.button(
           f"""
                 <div class="sub-box">
                 <b>⚡ Volume & Fibonacci (3,000):</b><br>
-                • RSI Matrix (14): <b>{rsi}</b><br>
-                • Fibonacci Array: <b>{fib}</b><br>
+                • RSI Matrix (14): <b>{data['rsi']}</b><br>
+                • Fibonacci Array: <b>{data['fib']}</b><br>
                 • Stream Sync: <b>Lightning ⚡</b>
                 </div>
             """,
@@ -394,8 +419,8 @@ if st.button(
 
 else:
   st.info(
-      "👆 Sidebar mein **Enable Real-Time Continuous Ticker** on rakhein. Speed"
-      " ab slider se 0.1 seconds tak set ki ja sakti hai."
+      "👆 **Execute 5,000+ Lightning Confluence Scan** button dabayein taake"
+      " Call (UP) ya Put (DOWN) ka signal screen par generate ho jaye."
   )
 
 # Lightning-Fast Continuous Auto-Refresh Loop
