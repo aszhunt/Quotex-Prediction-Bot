@@ -7,63 +7,65 @@ import yfinance as yf
 
 # Page Configuration
 st.set_page_config(
-    page_title="Axiom Terminal | 1,000+ Indicators Ultra Pro",
+    page_title="Axiom Institutional Terminal | Pro Light",
     page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-# Advanced Professional Terminal Styling (Institutional UI/UX)
+# Professional Light Institutional Styling (Clean White/Grey Theme)
 st.markdown(
     """
     <style>
-    .main {background-color: #05070b; color: #e6edf3;}
-    .stSidebar {background-color: #0d1117; border-right: 1px solid #21262d;}
+    .main {background-color: #f4f6f9; color: #1f2328;}
+    .stSidebar {background-color: #ffffff; border-right: 1px solid #d0d7de;}
     .terminal-card {
-        background: linear-gradient(135deg, #121821 0%, #0d1117 100%);
+        background: #ffffff;
         padding: 20px;
         border-radius: 12px;
-        border: 1px solid #30363d;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        border: 1px solid #d0d7de;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     }
     .signal-call {
-        background: linear-gradient(135deg, #0d2818 0%, #07150d 100%);
-        color: #3fb950;
+        background: linear-gradient(135deg, #e6f4ea 0%, #ceead6 100%);
+        color: #137333;
         padding: 25px;
         border-radius: 14px;
         text-align: center;
         font-size: 32px;
         font-weight: 800;
         letter-spacing: 1px;
-        border: 2px solid #2ea043;
-        box-shadow: 0 0 30px rgba(46, 160, 67, 0.25);
+        border: 2px solid #34a853;
+        box-shadow: 0 4px 15px rgba(52, 168, 83, 0.15);
     }
     .signal-put {
-        background: linear-gradient(135deg, #3d1214 0%, #1a0809 100%);
-        color: #f85149;
+        background: linear-gradient(135deg, #fce8e6 0%, #fad2cf 100%);
+        color: #c5221f;
         padding: 25px;
         border-radius: 14px;
         text-align: center;
         font-size: 32px;
         font-weight: 800;
         letter-spacing: 1px;
-        border: 2px solid #da3633;
-        box-shadow: 0 0 30px rgba(218, 54, 51, 0.25);
+        border: 2px solid #ea4335;
+        box-shadow: 0 4px 15px rgba(234, 67, 53, 0.15);
     }
     .metric-container {
-        background-color: #161b22;
+        background-color: #ffffff;
         padding: 15px;
         border-radius: 10px;
-        border: 1px solid #30363d;
+        border: 1px solid #d0d7de;
         text-align: center;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.02);
     }
     .sub-box {
-        background-color: #0d1117;
+        background-color: #ffffff;
         padding: 14px;
         border-radius: 10px;
-        border: 1px solid #21262d;
+        border: 1px solid #d0d7de;
         font-size: 13px;
         margin-top: 10px;
+        color: #24292f;
     }
     </style>
 """,
@@ -199,8 +201,8 @@ st.sidebar.checkbox("Volatility Channels (250)", value=True, disabled=True)
 st.markdown(
     """
     <div style="padding: 10px 0;">
-        <h1 style="margin-bottom: 0; color: #ffffff; font-weight: 800;">🌐 Axiom Quantum Terminal v12</h1>
-        <p style="color: #8b949e; font-size: 16px;">Next-Generation 1,000+ Indicators Confluence Engine for High-Accuracy Binary Options</p>
+        <h1 style="margin-bottom: 0; color: #1f2328; font-weight: 800;">🌐 Axiom Quantum Terminal v12</h1>
+        <p style="color: #57606a; font-size: 16px;">Next-Generation 1,000+ Indicators Confluence Engine for High-Accuracy Binary Options</p>
     </div>
 """,
     unsafe_allow_html=True,
@@ -240,14 +242,14 @@ is_live_market = "Live" in market_mode
 spot_price = fetch_terminal_price(asset, is_live_market)
 price_delta = round(random.uniform(-0.0005, 0.0005), 4)
 
-# Top Metrics Bar (Professional Terminal Style)
+# Top Metrics Bar
 m1, m2, m3, m4 = st.columns(4)
 with m1:
   st.markdown(
       f"""
         <div class="metric-container">
-            <span style="color: #8b949e; font-size: 13px;">LIVE SPOT PRICE</span><h2 style="color: #3fb950; margin: 5px 0;">{spot_price}</h2>
-            <span style="color: #3fb950; font-size: 12px;">{price_delta:+.4f} ticks</span>
+            <span style="color: #57606a; font-size: 13px;">LIVE SPOT PRICE</span><h2 style="color: #137333; margin: 5px 0;">{spot_price}</h2>
+            <span style="color: #137333; font-size: 12px;">{price_delta:+.4f} ticks</span>
         </div>
     """,
       unsafe_allow_html=True,
@@ -256,8 +258,8 @@ with m2:
   st.markdown(
       """
         <div class="metric-container">
-            <span style="color: #8b949e; font-size: 13px;">ACTIVE CONFLUENCE</span><h2 style="color: #58a6ff; margin: 5px 0;">1,000+</h2>
-            <span style="color: #58a6ff; font-size: 12px;">Sub-Modules Online</span>
+            <span style="color: #57606a; font-size: 13px;">ACTIVE CONFLUENCE</span><h2 style="color: #0969da; margin: 5px 0;">1,000+</h2>
+            <span style="color: #0969da; font-size: 12px;">Sub-Modules Online</span>
         </div>
     """,
       unsafe_allow_html=True,
@@ -266,8 +268,8 @@ with m3:
   st.markdown(
       """
         <div class="metric-container">
-            <span style="color: #8b949e; font-size: 13px;">EXECUTION LATENCY</span><h2 style="color: #d29922; margin: 5px 0;">< 0.1s</h2>
-            <span style="color: #d29922; font-size: 12px;">Zero Slippage Feed</span>
+            <span style="color: #57606a; font-size: 13px;">EXECUTION LATENCY</span><h2 style="color: #9a6700; margin: 5px 0;">< 0.1s</h2>
+            <span style="color: #9a6700; font-size: 12px;">Zero Slippage Feed</span>
         </div>
     """,
       unsafe_allow_html=True,
@@ -276,8 +278,8 @@ with m4:
   st.markdown(
       """
         <div class="metric-container">
-            <span style="color: #8b949e; font-size: 13px;">TARGET WIN RATE</span><h2 style="color: #3fb950; margin: 5px 0;">96.5%</h2>
-            <span style="color: #3fb950; font-size: 12px;">AI Optimized Array</span>
+            <span style="color: #57606a; font-size: 13px;">TARGET WIN RATE</span><h2 style="color: #137333; margin: 5px 0;">96.5%</h2>
+            <span style="color: #137333; font-size: 12px;">AI Optimized Array</span>
         </div>
     """,
       unsafe_allow_html=True,
@@ -327,7 +329,7 @@ def run_quantum_matrix():
   )
 
 
-# Action Button with Loading State
+# Action Button
 if st.button(
     "⚡ EXECUTE 1,000+ INDICATORS QUANTUM SCAN", use_container_width=True
 ):
@@ -356,8 +358,8 @@ if st.button(
     st.markdown("### 🎯 Institutional Signal Vector")
     st.markdown(f'<div class="{css}">{signal}</div>', unsafe_allow_html=True)
     st.markdown(
-        f"<br><h4 style='color: #c9d1d9;'>Model Confidence Accuracy:"
-        f" <span style='color: #3fb950;'>{conf}%</span></h4>",
+        f"<br><h4 style='color: #24292f;'>Model Confidence Accuracy:"
+        f" <span style='color: #137333;'>{conf}%</span></h4>",
         unsafe_allow_html=True,
     )
 
@@ -391,7 +393,7 @@ if st.button(
     st.markdown("### 🛡️ Risk Management")
     st.markdown(
         """
-        <div class="sub-box" style="border-left: 3px solid #d29922;">
+        <div class="sub-box" style="border-left: 3px solid #9a6700;">
         <b>Capital Guard Rules:</b><br>
         • <b>Max Stake:</b> 1.5% - 2% per trade<br>
         • <b>Martingale:</b> Max Level 1 Strict<br>
@@ -418,7 +420,7 @@ else:
 # Terminal Footer
 st.markdown("---")
 st.markdown(
-    "<p style='text-align: center; color: #8b949e; font-size: 13px;'>Axiom"
+    "<p style='text-align: center; color: #57606a; font-size: 13px;'>Axiom"
     " Institutional Trading Terminal | Powered by Streamlit & Python</p>",
     unsafe_allow_html=True,
 )
