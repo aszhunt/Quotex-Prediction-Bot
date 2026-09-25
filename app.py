@@ -321,6 +321,7 @@ if st.button(
   with st.spinner("Executing lightning-speed quantum confluences..."):
     time.sleep(0.2)
 
+  # Fixed variable reference error here
   (
       signal,
       css,
@@ -332,7 +333,7 @@ if st.button(
       rsi,
       fib,
       state,
-  ) = run_quantum_confluence(current_tick_price, tick_tick_delta if 'tick_tick_delta' in locals() else tick_delta)
+  ) = run_quantum_confluence(current_tick_price, tick_delta)
 
   res1, res2 = st.columns([2, 1])
   with res1:
@@ -394,7 +395,7 @@ if st.button(
 else:
   st.info(
       "👆 Sidebar mein **Enable Real-Time Continuous Ticker** on rakhein. Speed"
-      " ab slider से 0.1 seconds तक set ki ja sakti hai."
+      " ab slider se 0.1 seconds tak set ki ja sakti hai."
   )
 
 # Lightning-Fast Continuous Auto-Refresh Loop
